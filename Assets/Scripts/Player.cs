@@ -201,9 +201,9 @@ public class Player : MonoBehaviour
                     if (PlayerPrefs.HasKey("Lvl" + i + "BestScore"))
                     {
                         int crownAmount = 0;
-                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 1 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 2) crownAmount = 1;
-                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 3 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 4) crownAmount = 2;
-                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 5 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 6) crownAmount = 3;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") == 1) crownAmount = 1;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") == 2) crownAmount = 2; 
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") == 3) crownAmount = 3;
 
                         PlayerPrefs.SetInt("Lvl" + i + "Crowns", crownAmount);
                     }
@@ -226,9 +226,10 @@ public class Player : MonoBehaviour
                     if (PlayerPrefs.HasKey("Lvl" + i + "BestScore"))
                     {
                         int crownAmount = 0;
-                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 1 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 3) crownAmount = 1;
-                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 4 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 6) crownAmount = 2;
-                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 7 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 9) crownAmount = 3;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") == 1) crownAmount = 0;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 2 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 3) crownAmount = 1;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 4 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 5) crownAmount = 2;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") == 6) crownAmount = 3;
 
                         PlayerPrefs.SetInt("Lvl" + i + "Crowns", crownAmount);
                     }
@@ -251,9 +252,10 @@ public class Player : MonoBehaviour
                     if (PlayerPrefs.HasKey("Lvl" + i + "BestScore"))
                     {
                         int crownAmount = 0;
-                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 1 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 4) crownAmount = 1;
-                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 5 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 8) crownAmount = 2;
-                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 9 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 12) crownAmount = 3;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 1 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 2) crownAmount = 0;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 3 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 5) crownAmount = 1;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 6 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 8) crownAmount = 2;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") == 9) crownAmount = 3;
 
                         PlayerPrefs.SetInt("Lvl" + i + "Crowns", crownAmount);
                     }
