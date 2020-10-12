@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -14,16 +15,21 @@ public class Player : MonoBehaviour
     public int xSpeed = 3;
     public int ySpeed = 5;
 
-    GameManager gameManager;
+    [SerializeField] ArcadeGameManager arcadeGameManager;
+    [SerializeField] GameManager gameManager;
 
     bool isDead = false;
 
     float hueValue;
 
+    public UI uiManager;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        if (SceneManager.GetActiveScene().name == "ArcadeMode")   arcadeGameManager = GameObject.Find("ArcadeGameManager").GetComponent<ArcadeGameManager>();
+        if (SceneManager.GetActiveScene().name != "ArcadeMode") gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
    
     void Start()
@@ -55,17 +61,17 @@ public class Player : MonoBehaviour
     void  GetInput()
     {
         
-        if (Input.touchCount > 0 || Input.GetMouseButton(0))
+        if ((Input.touchCount > 0 || Input.GetMouseButton(0)) && uiManager.isPause == false)
         {
                 rb.AddForce(new Vector2 (0, ySpeed));
         }
         else
         {
-            if (rb.velocity.y > 0)
+            if (rb.velocity.y > 0 && uiManager.isPause == false)
             {
                 rb.AddForce(new Vector2 (0, -ySpeed/1.5f));
             }
-            else
+            else if (uiManager.isPause == false)
             {
                 rb.velocity = new Vector2(rb.velocity.x, 0);
             }
@@ -85,6 +91,10 @@ public class Player : MonoBehaviour
         {
             GetItem(other);
         }
+        else if (other.gameObject.tag == "Finish") 
+        {
+            Win();
+        }
         
     }
 
@@ -96,7 +106,8 @@ public class Player : MonoBehaviour
         Destroy (Instantiate(itemEffectObj, other.gameObject.transform.position, Quaternion.identity), 0.5f);
         Destroy(other.gameObject.transform.parent.gameObject);
 
-        gameManager.AddScore();
+        if (SceneManager.GetActiveScene().name == "ArcadeMode") arcadeGameManager.AddScore();
+        if (SceneManager.GetActiveScene().name != "ArcadeMode") gameManager.AddScore();
     }
 
 
@@ -109,7 +120,8 @@ public class Player : MonoBehaviour
 
         StopPLayer();
 
-        gameManager.CallGameOver();
+        if (SceneManager.GetActiveScene().name == "ArcadeMode") arcadeGameManager.CallGameOver();
+        if (SceneManager.GetActiveScene().name != "ArcadeMode") gameManager.CallGameOver();
     }
 
 
@@ -130,5 +142,131 @@ public class Player : MonoBehaviour
             hueValue = 0;
         }
     }
+
+    void Win()
+    {
+        StopPLayer();
+
+        gameManager.WinPanel.SetActive(true);
+
+        CheckPassedLevels();
+
+        SetCrowns(); 
+    }
+
+
+    void CheckPassedLevels() 
+    {
+        if (SceneManager.GetActiveScene().buildIndex > PlayerPrefs.GetInt("LvlsPassed"))
+        {
+            PlayerPrefs.SetInt("LvlsPassed", SceneManager.GetActiveScene().buildIndex);
+        }
+    }
+
+    void SetCrowns() 
+    {
+
+        if (SceneManager.GetActiveScene().buildIndex >= 1 && SceneManager.GetActiveScene().buildIndex <= 5)
+        {
+
+            for (int i = 1; i < 6; i++)
+            {
+                if (SceneManager.GetActiveScene().buildIndex == i)
+                {
+                    if (PlayerPrefs.HasKey("Lvl" + i + "BestScore"))
+                    {
+                        int crownAmount = 0;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") == 1) crownAmount = 1;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") == 2) crownAmount = 2;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") == 3) crownAmount = 3;
+
+                        PlayerPrefs.SetInt("Lvl" + i + "Crowns", crownAmount);
+                    }
+                    else
+                    {
+                        PlayerPrefs.SetInt("Lvl" + i + "Crowns", 0);
+                    }
+                }
+            }
+
+        }
+
+        else if (SceneManager.GetActiveScene().buildIndex >= 6 && SceneManager.GetActiveScene().buildIndex <= 10)
+        {
+
+            for (int i = 6; i < 11; i++)
+            {
+                if (SceneManager.GetActiveScene().buildIndex == i)
+                {
+                    if (PlayerPrefs.HasKey("Lvl" + i + "BestScore"))
+                    {
+                        int crownAmount = 0;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 1 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 2) crownAmount = 1;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 3 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 4) crownAmount = 2;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 5 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 6) crownAmount = 3;
+
+                        PlayerPrefs.SetInt("Lvl" + i + "Crowns", crownAmount);
+                    }
+                    else
+                    {
+                        PlayerPrefs.SetInt("Lvl" + i + "Crowns", 0);
+                    }
+                }
+            }
+
+        }
+
+        else if (SceneManager.GetActiveScene().buildIndex >= 11 && SceneManager.GetActiveScene().buildIndex <= 15)
+        {
+
+            for (int i = 11; i < 16; i++)
+            {
+                if (SceneManager.GetActiveScene().buildIndex == i)
+                {
+                    if (PlayerPrefs.HasKey("Lvl" + i + "BestScore"))
+                    {
+                        int crownAmount = 0;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 1 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 3) crownAmount = 1;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 4 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 6) crownAmount = 2;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 7 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 9) crownAmount = 3;
+
+                        PlayerPrefs.SetInt("Lvl" + i + "Crowns", crownAmount);
+                    }
+                    else
+                    {
+                        PlayerPrefs.SetInt("Lvl" + i + "Crowns", 0);
+                    }
+                }
+            }
+
+        }
+
+        else if (SceneManager.GetActiveScene().buildIndex >= 15 && SceneManager.GetActiveScene().buildIndex <= 20)
+        {
+
+            for (int i = 16; i < 21; i++)
+            {
+                if (SceneManager.GetActiveScene().buildIndex == i)
+                {
+                    if (PlayerPrefs.HasKey("Lvl" + i + "BestScore"))
+                    {
+                        int crownAmount = 0;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 1 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 4) crownAmount = 1;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 5 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 8) crownAmount = 2;
+                        if (PlayerPrefs.GetInt("Lvl" + i + "BestScore") >= 9 && PlayerPrefs.GetInt("Lvl" + i + "BestScore") <= 12) crownAmount = 3;
+
+                        PlayerPrefs.SetInt("Lvl" + i + "Crowns", crownAmount);
+                    }
+                    else
+                    {
+                        PlayerPrefs.SetInt("Lvl" + i + "Crowns", 0);
+                    }
+                }
+            }
+
+        }
+
+    }
+
 
 }
