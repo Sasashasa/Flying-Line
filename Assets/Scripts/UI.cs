@@ -116,6 +116,56 @@ public class UI : MonoBehaviour
         SceneManager.LoadScene(10);
     }
 
+    public void Level11()
+    {
+        SceneManager.LoadScene(11);
+    }
+
+    public void Level12()
+    {
+        SceneManager.LoadScene(12);
+    }
+
+    public void Level13()
+    {
+        SceneManager.LoadScene(13);
+    }
+
+    public void Level14()
+    {
+        SceneManager.LoadScene(14);
+    }
+
+    public void Level15()
+    {
+        SceneManager.LoadScene(15);
+    }
+
+    public void Level16()
+    {
+        SceneManager.LoadScene(16);
+    }
+
+    public void Level17()
+    {
+        SceneManager.LoadScene(17);
+    }
+
+    public void Level18()
+    {
+        SceneManager.LoadScene(18);
+    }
+
+    public void Level19()
+    {
+        SceneManager.LoadScene(19);
+    }
+
+    public void Level20()
+    {
+        SceneManager.LoadScene(20);
+    }
+
 
 
 }

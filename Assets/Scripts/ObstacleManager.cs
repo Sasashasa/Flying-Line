@@ -10,7 +10,7 @@ public class ObstacleManager : MonoBehaviour
     int obstacleCount;
     int playerDistanceIndex = -1;
     int obstacleIndex = 0;
-    int distanceToNext = 50;
+    public int distanceToNext = 50;
     
     void Start()
     {
@@ -36,6 +36,7 @@ public class ObstacleManager : MonoBehaviour
     {
         int RandomInt = Random.Range(0, obstacleCount);
         GameObject newObstacle = Instantiate(ObstaclesArr[RandomInt], new Vector3(0, obstacleIndex*distanceToNext), Quaternion.identity);
+        Debug.Log(obstacleIndex);
         newObstacle.transform.SetParent(transform);
         obstacleIndex++;
     }
