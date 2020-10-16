@@ -14,6 +14,14 @@ public class GameManager : MonoBehaviour
 
     int currentScore;
 
+    public Sprite[] planets;
+
+
+    void Awake()
+    {
+        GameObject.Find("Player").GetComponent<SpriteRenderer>().sprite = planets[PlayerPrefs.GetInt("SelectedSkin")];
+    }
+
     void Start()
     {
         currentScore = 0;
