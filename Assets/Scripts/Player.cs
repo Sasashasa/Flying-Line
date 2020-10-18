@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 
     public GameObject deadEffectObj;
     public GameObject itemEffectObj;
+    public GameObject coinEffectObj;
 
     Rigidbody2D rb;
     [SerializeField] private float angle = 0;
@@ -23,6 +24,8 @@ public class Player : MonoBehaviour
     float hueValue;
 
     public UI uiManager;
+
+    public SoundEffector sE;
 
     void Awake()
     {
@@ -85,15 +88,25 @@ public class Player : MonoBehaviour
     { 
         if (other.gameObject.tag == "Obstacle")
         {
+            sE.PlayLoseSound();
             Dead();
         }
         else if (other.gameObject.tag == "Item")
         {
+            sE.PlayCollectItemSound();
             GetItem(other);
         }
         else if (other.gameObject.tag == "Finish") 
         {
+            sE.PlayWinSound();
             Win();
+        }
+        else if (other.gameObject.tag == "Coin") 
+        {
+            PlayerPrefs.SetInt("MoneyAmount", PlayerPrefs.GetInt("MoneyAmount", 0) + 1);
+            sE.PlayCollectCoinSound();
+            Destroy(Instantiate(coinEffectObj, other.gameObject.transform.position, Quaternion.identity), 1f);
+            Destroy(other.gameObject);
         }
         
     }

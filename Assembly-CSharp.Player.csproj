@@ -58,16 +58,21 @@
     <Compile Include="Assets\Scripts\ArcadeGameManager.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
-    <Compile Include="Assets\Scripts\AudioSource.cs" />
+    <Compile Include="Assets\Scripts\SoundEffector.cs" />
+    <Compile Include="Assets\Scripts\Settings_Sliders.cs" />
     <Compile Include="Assets\Scripts\UI.cs" />
     <Compile Include="Assets\Scripts\LimitFPS.cs" />
+    <Compile Include="Assets\Scripts\Ads\SimpleAds.cs" />
     <Compile Include="Assets\Scripts\CameraShake.cs" />
     <Compile Include="Assets\Scripts\ObstacleManager.cs" />
     <Compile Include="Assets\Scripts\ObstacleParent.cs" />
     <Compile Include="Assets\Scripts\CheckButton.cs" />
     <Compile Include="Assets\Scripts\Obstacle.cs" />
-    <Compile Include="Assets\Scripts\FollowPlayer.cs" />
     <Compile Include="Assets\Scripts\CheckSkinsButton.cs" />
+    <Compile Include="Assets\Scripts\DontDestroy.cs" />
+    <Compile Include="Assets\Scripts\FollowPlayer.cs" />
+    <Compile Include="Assets\Scripts\Ads\RewardedAds.cs" />
+    <Compile Include="Assets\Scripts\Ads\CheckAdsButton.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -319,6 +324,9 @@
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Advertisements.Editor">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.Advertisements.Editor.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.1.6f1\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll</HintPath>
@@ -667,9 +675,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="UnityEngine.Monetization.csproj">
+      <Project>{B81F9B3C-FB14-13ED-984D-85184017449B}</Project>
+      <Name>UnityEngine.Monetization</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.2D.Animation.Runtime.csproj">
       <Project>{52D79881-FAE4-F37B-34BD-7FBD0E60268C}</Project>
       <Name>Unity.2D.Animation.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.Advertisements.csproj">
+      <Project>{B6ED45D7-7F8A-9497-F650-AAD20C62AEFC}</Project>
+      <Name>UnityEngine.Advertisements</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.csproj">
       <Project>{F55F5B03-64BD-2110-29F2-6E780FE2653A}</Project>

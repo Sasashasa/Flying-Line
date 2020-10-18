@@ -18,11 +18,21 @@ public class CheckSkinsButton : MonoBehaviour
     [SerializeField] private int temporary_index;
     [SerializeField] private int temporary_cost;
 
-    public int Money;
+    public Text moneyText;
+
 
     void Start()
     {
-        PlayerPrefs.SetInt("MoneyAmount", Money);
+
+        PlayerPrefs.SetInt("CrownsAmount", 0);
+
+
+        for (int i = 1; i <= 20; i++) 
+        {
+            int crowns = PlayerPrefs.GetInt("Lvl" + i + "Crowns");
+
+            PlayerPrefs.SetInt("CrownsAmount", PlayerPrefs.GetInt("CrownsAmount", 0) + crowns);
+        }
 
  
         CheckSecretSkins();
@@ -55,6 +65,9 @@ public class CheckSkinsButton : MonoBehaviour
 
 
         CheckUnlockSkin();
+
+        moneyText.text = PlayerPrefs.GetInt("MoneyAmount", 0).ToString();
+
     }
 
    
@@ -209,7 +222,8 @@ public class CheckSkinsButton : MonoBehaviour
                 PlayerPrefs.SetInt("ButStatus", 2);
 
                 skins[temporary_index].gameObject.transform.GetChild(0).gameObject.SetActive(true);
-            }
+
+                moneyText.text = PlayerPrefs.GetInt("MoneyAmount", 0).ToString();            }
         }
 
 
@@ -219,11 +233,11 @@ public class CheckSkinsButton : MonoBehaviour
 
     public void CheckSecretSkins() 
     {
-        if (PlayerPrefs.GetInt("LvlsPassed") == 5) PlayerPrefs.SetInt("UnlockSkin_10", 1);
-        if (PlayerPrefs.GetInt("LvlsPassed") == 10) PlayerPrefs.SetInt("UnlockSkin_11", 1);
-        if (PlayerPrefs.GetInt("LvlsPassed") == 15) PlayerPrefs.SetInt("UnlockSkin_12", 1);
-        if (PlayerPrefs.GetInt("LvlsPassed") == 20) PlayerPrefs.SetInt("UnlockSkin_13", 1);
-        if (PlayerPrefs.GetInt("CrownsAmount") == 60) PlayerPrefs.SetInt("UnlockSkin_14", 1);
+        if (PlayerPrefs.GetInt("LvlsPassed") >= 5) PlayerPrefs.SetInt("UnlockSkin_10", 1);
+        if (PlayerPrefs.GetInt("LvlsPassed") >= 10) PlayerPrefs.SetInt("UnlockSkin_11", 1);
+        if (PlayerPrefs.GetInt("LvlsPassed") >= 15) PlayerPrefs.SetInt("UnlockSkin_12", 1);
+        if (PlayerPrefs.GetInt("LvlsPassed") >= 20) PlayerPrefs.SetInt("UnlockSkin_13", 1);
+        if (PlayerPrefs.GetInt("CrownsAmount") >= 60) PlayerPrefs.SetInt("UnlockSkin_14", 1);
         if (PlayerPrefs.GetInt("ArcadeBestScore") >= 80) PlayerPrefs.SetInt("UnlockSkin_15", 1);
     }
 

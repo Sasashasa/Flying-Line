@@ -16,17 +16,23 @@ public class ArcadeGameManager : MonoBehaviour
 
     public Sprite[] planets;
 
+    public AudioSource musicSource, soundsSource;
+
+    public SimpleAds Ad;
+
 
 
     void Awake()
     {
-       
-
         GameObject.Find("Player").GetComponent<SpriteRenderer>().sprite = planets[PlayerPrefs.GetInt("SelectedSkin")];
     }
 
     void Start()
     {
+        musicSource.volume = (float)PlayerPrefs.GetInt("MusicVolume")/9;
+        soundsSource.volume = (float)PlayerPrefs.GetInt("SoundsVolume")/9;
+
+
         currentScore = 0;
         bestScoreText.text = PlayerPrefs.GetInt("ArcadeBestScore").ToString();
         SetScore();
@@ -42,6 +48,13 @@ public class ArcadeGameManager : MonoBehaviour
     public void CallGameOver()
     {
         StartCoroutine(GameOver());
+        PlayerPrefs.SetInt("DeathCount", PlayerPrefs.GetInt("DeathCount", 0) + 1);
+        PlayerPrefs.SetInt("DeathCount2", PlayerPrefs.GetInt("DeathCount2", 0) + 1);
+        if (PlayerPrefs.GetInt("DeathCount") >= 30) 
+        {
+            Ad.ShowAd();
+        }
+
     }
 
     IEnumerator GameOver()
@@ -53,7 +66,6 @@ public class ArcadeGameManager : MonoBehaviour
 
     public void Restart()
     {
-        PlayerPrefs.SetInt("AudioDestroyAmount", 2);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

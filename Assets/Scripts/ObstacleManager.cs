@@ -36,7 +36,6 @@ public class ObstacleManager : MonoBehaviour
     {
         int RandomInt = Random.Range(0, obstacleCount);
         GameObject newObstacle = Instantiate(ObstaclesArr[RandomInt], new Vector3(0, obstacleIndex*distanceToNext), Quaternion.identity);
-        Debug.Log(obstacleIndex);
         newObstacle.transform.SetParent(transform);
         obstacleIndex++;
     }

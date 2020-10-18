@@ -58,16 +58,21 @@
     <Compile Include="Assets\Scripts\ArcadeGameManager.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
-    <Compile Include="Assets\Scripts\AudioSource.cs" />
+    <Compile Include="Assets\Scripts\SoundEffector.cs" />
+    <Compile Include="Assets\Scripts\Settings_Sliders.cs" />
     <Compile Include="Assets\Scripts\UI.cs" />
     <Compile Include="Assets\Scripts\LimitFPS.cs" />
+    <Compile Include="Assets\Scripts\Ads\SimpleAds.cs" />
     <Compile Include="Assets\Scripts\CameraShake.cs" />
     <Compile Include="Assets\Scripts\ObstacleManager.cs" />
     <Compile Include="Assets\Scripts\ObstacleParent.cs" />
     <Compile Include="Assets\Scripts\CheckButton.cs" />
     <Compile Include="Assets\Scripts\Obstacle.cs" />
-    <Compile Include="Assets\Scripts\FollowPlayer.cs" />
     <Compile Include="Assets\Scripts\CheckSkinsButton.cs" />
+    <Compile Include="Assets\Scripts\DontDestroy.cs" />
+    <Compile Include="Assets\Scripts\FollowPlayer.cs" />
+    <Compile Include="Assets\Scripts\Ads\RewardedAds.cs" />
+    <Compile Include="Assets\Scripts\Ads\CheckAdsButton.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -623,6 +628,10 @@
       <Project>{346CF289-0836-D1AC-EBF4-4B7B41B81709}</Project>
       <Name>Unity.Timeline.Editor</Name>
     </ProjectReference>
+    <ProjectReference Include="UnityEngine.Monetization.csproj">
+      <Project>{B81F9B3C-FB14-13ED-984D-85184017449B}</Project>
+      <Name>UnityEngine.Monetization</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.2D.Animation.Runtime.csproj">
       <Project>{52D79881-FAE4-F37B-34BD-7FBD0E60268C}</Project>
       <Name>Unity.2D.Animation.Runtime</Name>
@@ -634,6 +643,10 @@
     <ProjectReference Include="Unity.VSCode.Editor.csproj">
       <Project>{BA2ADA3C-9A85-5F8D-3785-2F740E770F31}</Project>
       <Name>Unity.VSCode.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.Advertisements.csproj">
+      <Project>{B6ED45D7-7F8A-9497-F650-AAD20C62AEFC}</Project>
+      <Name>UnityEngine.Advertisements</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.2D.SpriteShape.Editor.csproj">
       <Project>{B4DC1CEA-13E6-DC56-0A1C-D278EEF93EBD}</Project>
@@ -726,6 +739,10 @@
     <ProjectReference Include="UnityEditor.UI.csproj">
       <Project>{138D72EC-241B-FAEA-650E-0571D3C652AE}</Project>
       <Name>UnityEditor.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.Advertisements.Editor.csproj">
+      <Project>{B068CCDB-A93C-8864-5D1A-1E9FFF52DAF6}</Project>
+      <Name>UnityEngine.Advertisements.Editor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
