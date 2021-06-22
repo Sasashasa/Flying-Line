@@ -58,22 +58,19 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\ArcadeGameManager.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
-    <Compile Include="Assets\Scripts\Player.cs" />
+    <Compile Include="Assets\Scripts\Hero.cs" />
     <Compile Include="Assets\Scripts\SoundEffector.cs" />
-    <Compile Include="Assets\Scripts\Settings_Sliders.cs" />
-    <Compile Include="Assets\Scripts\UI.cs" />
-    <Compile Include="Assets\Scripts\LimitFPS.cs" />
-    <Compile Include="Assets\Scripts\Ads\SimpleAds.cs" />
-    <Compile Include="Assets\Scripts\Ads\CheckAdsButton.cs" />
-    <Compile Include="Assets\Scripts\Ads\RewardedAds.cs" />
+    <Compile Include="Assets\Scripts\Menu\SetUpSettingsPanel.cs" />
+    <Compile Include="Assets\Scripts\GameUIManager.cs" />
     <Compile Include="Assets\Scripts\CameraShake.cs" />
     <Compile Include="Assets\Scripts\ObstacleManager.cs" />
     <Compile Include="Assets\Scripts\ObstacleParent.cs" />
-    <Compile Include="Assets\Scripts\CheckButton.cs" />
+    <Compile Include="Assets\Scripts\Menu\SetUpLevelsPanel.cs" />
     <Compile Include="Assets\Scripts\Obstacle.cs" />
-    <Compile Include="Assets\Scripts\CheckSkinsButton.cs" />
+    <Compile Include="Assets\Scripts\Menu\SetUpSkinsPanel.cs" />
     <Compile Include="Assets\Scripts\DontDestroy.cs" />
     <Compile Include="Assets\Scripts\FollowPlayer.cs" />
+    <Compile Include="Assets\Scripts\Menu\MenuUIManager.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -89,7 +86,6 @@
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
-     <None Include="Assets\Assets\Background\SimpleSky\ReadMe.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />

@@ -18,8 +18,6 @@ public class ArcadeGameManager : MonoBehaviour
 
     public AudioSource musicSource, soundsSource;
 
-    public SimpleAds Ad;
-
 
 
     void Awake()
@@ -48,13 +46,6 @@ public class ArcadeGameManager : MonoBehaviour
     public void CallGameOver()
     {
         StartCoroutine(GameOver());
-        PlayerPrefs.SetInt("DeathCount", PlayerPrefs.GetInt("DeathCount", 0) + 1);
-        PlayerPrefs.SetInt("DeathCount2", PlayerPrefs.GetInt("DeathCount2", 0) + 1);
-        if (PlayerPrefs.GetInt("DeathCount") >= 30) 
-        {
-            Ad.ShowAd();
-        }
-
     }
 
     IEnumerator GameOver()

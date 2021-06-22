@@ -19,9 +19,6 @@ public class GameManager : MonoBehaviour
     public AudioSource musicSource, soundsSource;
 
 
-    public SimpleAds Ad;
-
-
     void Awake()
     {
         GameObject.Find("Player").GetComponent<SpriteRenderer>().sprite = planets[PlayerPrefs.GetInt("SelectedSkin")];
@@ -52,12 +49,6 @@ public class GameManager : MonoBehaviour
     public void CallGameOver()
     {
         StartCoroutine(GameOver());
-        PlayerPrefs.SetInt("DeathCount", PlayerPrefs.GetInt("DeathCount", 0) + 1);
-        PlayerPrefs.SetInt("DeathCount2", PlayerPrefs.GetInt("DeathCount2", 0) + 1);
-        if (PlayerPrefs.GetInt("DeathCount") >= 30)
-        {
-            Ad.ShowAd();
-        }
     }
 
     IEnumerator GameOver()
