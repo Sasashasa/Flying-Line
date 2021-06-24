@@ -1,27 +1,24 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ObstacleParent : MonoBehaviour
 {
-    GameObject playerObj;
-    void Start()
+    private Transform _hero;
+
+    private void Start()
     {
-        playerObj = GameObject.Find("Player");
+        _hero = GameObject.Find("Hero").transform;
         StartCoroutine(CalculateDistanceToPlayer());
     }
 
-    IEnumerator CalculateDistanceToPlayer()
+    private IEnumerator CalculateDistanceToPlayer()
     {
-        while (true)
+        if (_hero.transform.position.y - transform.position.y > 50)
         {
-            if (playerObj.transform.position.y - transform.position.y > 50)
-            {
-                Destroy(this.gameObject);
-            }
-
-            yield return new WaitForSeconds(1.0f);
+            Destroy(gameObject);
         }
-    }
 
+        yield return new WaitForSeconds(1.0f);
+        StartCoroutine(CalculateDistanceToPlayer());
+    }
 }

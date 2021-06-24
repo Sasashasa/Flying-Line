@@ -67,10 +67,9 @@
     <Compile Include="Assets\Scripts\ObstacleParent.cs" />
     <Compile Include="Assets\Scripts\Menu\SetUpLevelsPanel.cs" />
     <Compile Include="Assets\Scripts\Obstacle.cs" />
-    <Compile Include="Assets\Scripts\Menu\SetUpSkinsPanel.cs" />
-    <Compile Include="Assets\Scripts\DontDestroy.cs" />
-    <Compile Include="Assets\Scripts\FollowPlayer.cs" />
     <Compile Include="Assets\Scripts\Menu\MenuUIManager.cs" />
+    <Compile Include="Assets\Scripts\Menu\SetUpSkinsPanel.cs" />
+    <Compile Include="Assets\Scripts\FollowHero.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -1,25 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
-    
-    public int RotationSpeed;
+    [SerializeField] private int RotationSpeed;
 
-
-    void Update()
+    private void Update()
     {
         if (RotationSpeed != 0)
         {
-            Rotation();
+            Rotate();
         }
     }
 
-
-    void Rotation()
+    private void Rotate()
     {
         transform.Rotate(Vector3.forward * Time.deltaTime * RotationSpeed);
     }
-
 }

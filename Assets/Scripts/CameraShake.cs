@@ -1,13 +1,20 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
-    float duration = 0.15f;
-    float magnitude = 0.2f;
+    [Header("Характреристики")]
+    [SerializeField] private float duration = 0.15f;
+    [SerializeField] private float magnitude = 0.2f;
 
-    public IEnumerator Shake()
+
+    public void ShakeCamera() 
+    {
+        StartCoroutine(Shake());
+    }
+
+
+    private IEnumerator Shake()
     {
         Vector3 originalPosition = transform.localPosition;
         float elapsed = 0.0f;
@@ -23,8 +30,5 @@ public class CameraShake : MonoBehaviour
         }
 
         transform.localPosition = originalPosition;
-
     }
-
-
 }

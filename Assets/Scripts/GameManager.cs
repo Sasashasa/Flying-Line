@@ -1,46 +1,41 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Игровые объекты")]
+    [SerializeField] private AudioSource musicSource;
+    [SerializeField] private AudioSource soundsSource;
 
-    public GameObject GameOverPanel;
-    public GameObject WinPanel;
-    public TextMeshProUGUI currentScoreText;
-    public TextMeshProUGUI bestScoreText;
+    [Header("UI элементы")]
+    [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameObject winPanel;
+    [SerializeField] private TextMeshProUGUI currentScoreText;
+    [SerializeField] private TextMeshProUGUI bestScoreText;
+    [SerializeField] private Sprite[] planets;
 
-    int currentScore;
+    [Header("Вспомогательные поля")]
+    private int _curScore = 0;
+    private int _bestScore;
+    private int _curScene;
 
-    public Sprite[] planets;
 
-    public AudioSource musicSource, soundsSource;
-
-
-    void Awake()
+    private void Awake()
     {
-        GameObject.Find("Player").GetComponent<SpriteRenderer>().sprite = planets[PlayerPrefs.GetInt("SelectedSkin")];
+        GameObject.Find("Hero").GetComponent<SpriteRenderer>().sprite = planets[PlayerPrefs.GetInt("SelectedSkin")];
     }
 
-    void Start()
+    private void Start()
     {
         musicSource.volume = (float)PlayerPrefs.GetInt("MusicVolume") / 9;
         soundsSource.volume = (float)PlayerPrefs.GetInt("SoundsVolume") / 9;
 
+        _curScene = SceneManager.GetActiveScene().buildIndex;
+        _bestScore = PlayerPrefs.GetInt($"Lvl{_curScene}BestScore", 0);
 
-        currentScore = 0;
-
-
-        for (int i = 1; i <=20; i++) 
-        {
-            if (SceneManager.GetActiveScene().buildIndex == i)
-            {
-                bestScoreText.text = PlayerPrefs.GetInt("Lvl" + i + "BestScore").ToString(); 
-            }
-        }
-
+        bestScoreText.text = _bestScore.ToString();
 
         SetScore();
     }
@@ -48,48 +43,38 @@ public class GameManager : MonoBehaviour
 
     public void CallGameOver()
     {
-        StartCoroutine(GameOver());
-    }
-
-    IEnumerator GameOver()
-    {
-        yield return new WaitForSeconds(0.5f);
-        GameOverPanel.SetActive(true);
-        yield break;
-    }
-
-    public void Restart()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        StartCoroutine(WaitGameOver());
     }
 
 
     public void AddScore()
     {
-        currentScore++;
+        _curScore++;
 
-
-        for (int i = 1; i <= 20; i++) 
+        if (_curScore > _bestScore) 
         {
-            if (SceneManager.GetActiveScene().buildIndex == i) 
-            {
-                if (currentScore > PlayerPrefs.GetInt("Lvl" + i + "BestScore", 0)) 
-                {
-                    PlayerPrefs.SetInt("Lvl" + i + "BestScore", currentScore);
-                    bestScoreText.text = currentScore.ToString();
-                }
-            }
+            _bestScore = _curScore;
+            PlayerPrefs.SetInt($"Lvl{_curScene}BestScore", _bestScore);
+            bestScoreText.text = _bestScore.ToString();
         }
-
 
         SetScore();
     }
 
 
-    void SetScore()
+    public void ActicateWinPanel() 
     {
-        currentScoreText.text = currentScore.ToString();
+        winPanel.SetActive(true);
     }
 
+    private void SetScore()
+    {
+        currentScoreText.text = _curScore.ToString();
+    }
 
+    private IEnumerator WaitGameOver()
+    {
+        yield return new WaitForSeconds(0.5f);
+        gameOverPanel.SetActive(true);
+    }
 }

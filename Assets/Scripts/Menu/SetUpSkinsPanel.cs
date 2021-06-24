@@ -11,8 +11,8 @@ public class SetUpSkinsPanel : MonoBehaviour
     [SerializeField] private Text curHeroCostText;
     [SerializeField] private Text coinsAmountText;
 
-    private int tempIndex;
-    private int tempCost;
+    private int _tempIndex;
+    private int _tempCost;
 
     private enum TextCondition {SELECTED, SELECT, BUY, SECRET}
 
@@ -34,9 +34,9 @@ public class SetUpSkinsPanel : MonoBehaviour
 
         PlayerPrefs.SetInt("UnlockSkin_0", 1);
         PlayerPrefs.SetInt("ButStatus", 1);
-        tempIndex = PlayerPrefs.GetInt("CurSelectedSkin", 0);
+        _tempIndex = PlayerPrefs.GetInt("CurSelectedSkin", 0);
 
-        curHeroImage.sprite = heroes[tempIndex].sprite;
+        curHeroImage.sprite = heroes[_tempIndex].sprite;
 
         curHeroConditionText.text = "SELECTED";
 
@@ -63,7 +63,7 @@ public class SetUpSkinsPanel : MonoBehaviour
             {
                 curHeroConditionText.text = TextCondition.SELECT.ToString();
 
-                tempIndex = index;
+                _tempIndex = index;
 
                 PlayerPrefs.SetInt("ButStatus", 2);
             }
@@ -82,13 +82,13 @@ public class SetUpSkinsPanel : MonoBehaviour
             {
                 curHeroCostText.gameObject.SetActive(true);
                 curHeroConditionText.text = TextCondition.BUY.ToString();
-                tempIndex = index;
+                _tempIndex = index;
                 curHeroImage.sprite = heroes[index].sprite;
 
                 PlayerPrefs.SetInt("ButStatus", 3);
 
-                tempCost = heroes[index].cost;
-                curHeroCostText.text = tempCost.ToString();
+                _tempCost = heroes[index].cost;
+                curHeroCostText.text = _tempCost.ToString();
             }
         }
     }
@@ -99,26 +99,26 @@ public class SetUpSkinsPanel : MonoBehaviour
 
         if (butStatus == 2) //если скин открыт, но не выбран
         {
-            PlayerPrefs.SetInt("SelectedSkin", tempIndex);
+            PlayerPrefs.SetInt("CurSelectedSkin", _tempIndex);
             curHeroConditionText.text = TextCondition.SELECTED.ToString();
         }
         else if (butStatus == 3) //если скин закрыт
         {
             int coinsAmount = PlayerPrefs.GetInt("CoinsAmount");
 
-            if (coinsAmount >= tempCost) 
+            if (coinsAmount >= _tempCost) 
             {
-                coinsAmount -= tempCost;
+                coinsAmount -= _tempCost;
                 coinsAmountText.text = coinsAmount.ToString();
 
                 PlayerPrefs.SetInt("CoinsAmount", coinsAmount);
-                PlayerPrefs.SetInt($"UnlockSkin_{tempIndex}", 1);
+                PlayerPrefs.SetInt($"UnlockSkin_{_tempIndex}", 1);
                 PlayerPrefs.SetInt("ButStatus", 2);
 
                 curHeroConditionText.text = TextCondition.SELECT.ToString();
 
                 curHeroCostText.gameObject.SetActive(false);
-                skinsCheckMarks[tempIndex].SetActive(true);
+                skinsCheckMarks[_tempIndex].SetActive(true);
             }
         }
     }

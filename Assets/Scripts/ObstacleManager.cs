@@ -1,43 +1,46 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ObstacleManager : MonoBehaviour
 {
+    [Header("Префабы и игровые объекты")]
+    [SerializeField] private Transform hero;
+    [SerializeField] private GameObject[] componentObstacles;
 
-    public GameObject PlayerObj;
-    public GameObject[] ObstaclesArr;
-    int obstacleCount;
-    int playerDistanceIndex = -1;
-    int obstacleIndex = 0;
-    public int distanceToNext = 50;
+    [Header("Характеристики")]
+    [SerializeField] private int distanceToNext = 50;
+
+    [Header("Вспопмгательные поля")]
+    private int _obstacleCount;
+    private int _playerDistanceIndex = -1;
+    private int _obstacleIndex = 0;
     
-    void Start()
+    private void Start()
     {
-        obstacleCount = ObstaclesArr.Length;
+        _obstacleCount = componentObstacles.Length;
         InstantientObstacle();
     }
 
     
-    void Update()
+    private void Update()
     {
-        int PlayerDistance = (int) (PlayerObj.transform.position.y / (distanceToNext));
+        int PlayerDistance = (int) (hero.position.y / distanceToNext);
 
-        if (playerDistanceIndex != PlayerDistance)
+        if (_playerDistanceIndex != PlayerDistance)
         {
             InstantientObstacle();
-            playerDistanceIndex = PlayerDistance;
+            _playerDistanceIndex = PlayerDistance;
         }
-
     }
 
-
-    public void InstantientObstacle()
+    private void InstantientObstacle()
     {
-        int RandomInt = Random.Range(0, obstacleCount);
-        GameObject newObstacle = Instantiate(ObstaclesArr[RandomInt], new Vector3(0, obstacleIndex*distanceToNext), Quaternion.identity);
+        int randomId = Random.Range(0, _obstacleCount);
+        GameObject obstacle = componentObstacles[randomId];
+        Vector3 pos = new Vector3(0, _obstacleIndex * distanceToNext);
+
+        GameObject newObstacle = Instantiate(obstacle, pos, Quaternion.identity);
+
         newObstacle.transform.SetParent(transform);
-        obstacleIndex++;
+        _obstacleIndex++;
     }
-    
 }

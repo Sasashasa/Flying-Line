@@ -1,59 +1,44 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
-using UnityEngine.UI;
 
 public class ArcadeGameManager : MonoBehaviour
 {
+    [Header("Компоненты")]
+    [SerializeField] private AudioSource musicSource;
+    [SerializeField] private AudioSource soundsSource;
 
-    public GameObject GameOverPanel;
-    public TextMeshProUGUI currentScoreText;
-    public TextMeshProUGUI bestScoreText;
+    [Header("UI элементы")]
+    [SerializeField] private TextMeshProUGUI currentScoreText;
+    [SerializeField] private TextMeshProUGUI bestScoreText;
+    [SerializeField] private GameObject GameOverPanel;
+    [SerializeField] private Sprite[] planets;
 
-    int currentScore;
-
-    public Sprite[] planets;
-
-    public AudioSource musicSource, soundsSource;
-
+    [Header("Вспомогательные поля")]
+    private int _curScore = 0;
 
 
-    void Awake()
+    private void Awake()
     {
-        GameObject.Find("Player").GetComponent<SpriteRenderer>().sprite = planets[PlayerPrefs.GetInt("SelectedSkin")];
+        GameObject.Find("Hero").GetComponent<SpriteRenderer>().sprite = planets[PlayerPrefs.GetInt("SelectedSkin")];
     }
 
-    void Start()
+
+    private void Start()
     {
         musicSource.volume = (float)PlayerPrefs.GetInt("MusicVolume")/9;
         soundsSource.volume = (float)PlayerPrefs.GetInt("SoundsVolume")/9;
 
-
-        currentScore = 0;
         bestScoreText.text = PlayerPrefs.GetInt("ArcadeBestScore").ToString();
-        SetScore();
-    }
-
-   
-    void Update()
-    {
-        
     }
 
 
     public void CallGameOver()
     {
-        StartCoroutine(GameOver());
+        StartCoroutine(WaitGameOver());
     }
 
-    IEnumerator GameOver()
-    {
-        yield return new WaitForSeconds(0.5f);
-        GameOverPanel.SetActive(true);
-        yield break;
-    }
 
     public void Restart()
     {
@@ -63,22 +48,25 @@ public class ArcadeGameManager : MonoBehaviour
 
     public void AddScore()
     {
-        currentScore++;
+        _curScore++;
 
-        if (currentScore > PlayerPrefs.GetInt("ArcadeBestScore", 0))
+        if (_curScore > PlayerPrefs.GetInt("ArcadeBestScore", 0))
         {
-            PlayerPrefs.SetInt("ArcadeBestScore", currentScore);
-            bestScoreText.text = currentScore.ToString();
+            PlayerPrefs.SetInt("ArcadeBestScore", _curScore);
+            bestScoreText.text = _curScore.ToString();
         }
 
         SetScore();
     }
 
-
-    void SetScore()
+    private void SetScore()
     {
-        currentScoreText.text = currentScore.ToString();
+        currentScoreText.text = _curScore.ToString();
     }
 
-
+    private IEnumerator WaitGameOver()
+    {
+        yield return new WaitForSeconds(0.5f);
+        GameOverPanel.SetActive(true);
+    }
 }

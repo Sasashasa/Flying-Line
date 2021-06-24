@@ -1,38 +1,39 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SoundEffector : MonoBehaviour
 {
-    public AudioClip collectCoinSound, collectItemSound, winSound, loseSound;
+    [Header("Звуки")]
+    [SerializeField] private AudioClip collectCoinSound;
+    [SerializeField] private AudioClip collectItemSound;
+    [SerializeField] private AudioClip winSound;
+    [SerializeField] private AudioClip loseSound;
 
-    public AudioSource aS;
-    
+    [Header("Вспомогательны поля")]
+    private AudioSource _audioSource;
 
-    void Start()
+
+    private void Start()
     {
-        aS = GetComponent<AudioSource>();
+        _audioSource = GetComponent<AudioSource>();
     }
-
 
     public void PlayCollectCoinSound() 
     {
-        aS.PlayOneShot(collectCoinSound);
+        _audioSource.PlayOneShot(collectCoinSound);
     }
 
     public void PlayCollectItemSound()
     {
-        aS.PlayOneShot(collectItemSound);
+        _audioSource.PlayOneShot(collectItemSound);
     }
 
     public void PlayWinSound()
     {
-        aS.PlayOneShot(winSound);
+        _audioSource.PlayOneShot(winSound);
     }
 
     public void PlayLoseSound()
     {
-        aS.PlayOneShot(loseSound);
+        _audioSource.PlayOneShot(loseSound);
     }
-
 }

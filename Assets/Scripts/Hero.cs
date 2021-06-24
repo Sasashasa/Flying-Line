@@ -1,169 +1,181 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Hero : MonoBehaviour
 {
+    [Header("Характеристики героя")]
+    [SerializeField] private int xSpeed = 3;
+    [SerializeField] private int ySpeed = 5;
 
-    public GameObject deadEffectObj;
-    public GameObject itemEffectObj;
-    public GameObject coinEffectObj;
+    [Header("Префабы")]
+    [SerializeField] private GameObject deadEffectObj;
+    [SerializeField] private GameObject itemEffectObj;
+    [SerializeField] private GameObject coinEffectObj;
 
-    Rigidbody2D rb;
-    [SerializeField] private float angle = 0;
+    [Header("Компоненты")]
+    [SerializeField] private GameManager gameManager;
+    [SerializeField] private ArcadeGameManager arcadeGameManager;
+    [SerializeField] private SoundEffector soundEffector;
 
-    public int xSpeed = 3;
-    public int ySpeed = 5;
-
-    [SerializeField] ArcadeGameManager arcadeGameManager;
-    [SerializeField] GameManager gameManager;
-
-    bool isDead = false;
-
-    float hueValue;
-
-    public GameUIManager uiManager;
-
-    public SoundEffector sE;
+    [Header("Вспомогательные поля")]
+    private Rigidbody2D _rb;
+    private Camera _cam;
+    private float _hueValue;
+    private float _angle = 0;
+    private bool _isDead = false;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-
-        if (SceneManager.GetActiveScene().name == "ArcadeMode")   arcadeGameManager = GameObject.Find("ArcadeGameManager").GetComponent<ArcadeGameManager>();
-        if (SceneManager.GetActiveScene().name != "ArcadeMode") gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _rb = GetComponent<Rigidbody2D>();
+        _cam = Camera.main;
     }
    
     private void Start()
     {
-        hueValue = Random.Range(0,10) / 10.0f;
         SetBackgroundColor();
     }
 
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (isDead == true) 
+        if (!_isDead)
         {
-            return;
+            MoveHeroX();
+            MoveHeroY();
         }
-
-        MovePlayer();
-        GetInput();
     }
 
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Obstacle")
+        if (other.GetComponent<Obstacle>()) 
         {
-            sE.PlayLoseSound();
             Dead();
         }
-        else if (other.gameObject.tag == "Item")
+        else if (other.CompareTag("Item"))
         {
-            sE.PlayCollectItemSound();
-            GetItem(other);
+            CollectItem(other);
         }
-        else if (other.gameObject.tag == "Finish")
+        else if (other.CompareTag("Finish"))
         {
-            sE.PlayWinSound();
             Win();
         }
-        else if (other.gameObject.tag == "Coin")
+        else if (other.CompareTag("Coin"))
         {
-            PlayerPrefs.SetInt("CoinsAmount", PlayerPrefs.GetInt("CoinsAmount", 0) + 1);
-            sE.PlayCollectCoinSound();
-            Destroy(Instantiate(coinEffectObj, other.gameObject.transform.position, Quaternion.identity), 1f);
-            Destroy(other.gameObject);
+            CollectCoin(other);
         }
 
     }
 
-
-    private void MovePlayer()
+    private void MoveHeroX()
     {
+        _angle += Time.fixedDeltaTime * xSpeed;
+
         Vector2 pos = transform.position;
-        pos.x = Mathf.Cos(angle)*3;
+        pos.x = Mathf.Cos(_angle) * xSpeed;
+
         transform.position = pos;
-        angle += Time.deltaTime * xSpeed;
     }
 
 
-    private void  GetInput()
+    private void  MoveHeroY()
     {
-        
-        if ((Input.touchCount > 0 || Input.GetMouseButton(0)) && Time.timeScale > 0)
+        if (Time.timeScale > 0) 
         {
-                rb.AddForce(new Vector2 (0, ySpeed));
-        }
-        else
-        {
-            if (rb.velocity.y > 0 && Time.timeScale > 0)
+            if (Input.touchCount > 0 || Input.GetMouseButton(0)) 
             {
-                rb.AddForce(new Vector2 (0, -ySpeed/1.5f));
+                _rb.AddForce(new Vector2(0, ySpeed));
             }
-            else if (Time.timeScale > 0)
+            else 
             {
-                rb.velocity = new Vector2(rb.velocity.x, 0);
+                if (_rb.velocity.y > 0) 
+                {
+                    _rb.AddForce(new Vector2(0, -ySpeed / 1.5f));
+                }
+                else 
+                {
+                    _rb.velocity = new Vector2(_rb.velocity.x, 0);
+                }
             }
-           
         }
     }
 
 
-
-    private void GetItem(Collider2D other)
+    private void CollectCoin(Collider2D other) 
     {
+        soundEffector.PlayCollectCoinSound();
+
+        PlayerPrefs.SetInt("CoinsAmount", PlayerPrefs.GetInt("CoinsAmount", 0) + 1);
+
+        Destroy(Instantiate(coinEffectObj, other.gameObject.transform.position, Quaternion.identity), 1f);
+        Destroy(other.gameObject);
+    }
+
+
+    private void CollectItem(Collider2D other)
+    {
+        soundEffector.PlayCollectItemSound();
+
         SetBackgroundColor();
         
         Destroy (Instantiate(itemEffectObj, other.gameObject.transform.position, Quaternion.identity), 0.5f);
         Destroy(other.gameObject.transform.parent.gameObject);
 
-        if (SceneManager.GetActiveScene().name == "ArcadeMode") arcadeGameManager.AddScore();
-        if (SceneManager.GetActiveScene().name != "ArcadeMode") gameManager.AddScore();
+        if (arcadeGameManager != null) 
+        {
+            arcadeGameManager.AddScore();
+        }
+        else 
+        {
+            gameManager.AddScore();
+        }
     }
 
 
     private void Dead()
     {
-        isDead = true;
-        StartCoroutine(Camera.main.gameObject.GetComponent<CameraShake>().Shake());
+        soundEffector.PlayLoseSound();
+
+        _isDead = true;
+        _cam.GetComponent<CameraShake>().ShakeCamera();
 
         Destroy (Instantiate(deadEffectObj, transform.position, Quaternion.identity), 0.7f);
 
         StopPLayer();
 
-        if (SceneManager.GetActiveScene().name == "ArcadeMode") arcadeGameManager.CallGameOver();
-        if (SceneManager.GetActiveScene().name != "ArcadeMode") gameManager.CallGameOver();
+        if (arcadeGameManager != null) 
+        {
+            arcadeGameManager.CallGameOver();
+        }
+        else 
+        {
+            gameManager.CallGameOver();
+        }
     }
 
-    private void StopPLayer()
-    {
-        rb.velocity = new Vector2 (0,0);
-        rb.isKinematic = true;
-
-    }
 
     private void SetBackgroundColor()
     {
-        Camera.main.backgroundColor = Color.HSVToRGB(hueValue, 0.6f, 0.8f);
-
-        hueValue += 0.1f;
-        if (hueValue >= 1)
-        {
-            hueValue = 0;
-        }
+        _hueValue = Random.Range(0, 10) / 10.0f;
+        _cam.backgroundColor = Color.HSVToRGB(_hueValue, 0.6f, 0.8f);
     }
 
     private void Win()
     {
+        soundEffector.PlayWinSound();
+        gameManager.ActicateWinPanel();
+
         StopPLayer();
-        gameManager.WinPanel.SetActive(true);
         CheckPassedLevels();
-        SetCrowns(); 
+        SetStars(); 
     }
+
+    private void StopPLayer()
+    {
+        _rb.velocity = new Vector2(0, 0);
+        _rb.isKinematic = true;
+    }
+
 
     private void CheckPassedLevels() 
     {
@@ -173,7 +185,7 @@ public class Hero : MonoBehaviour
         }
     }
 
-    private void SetCrowns() 
+    private void SetStars() 
     {
         int curLevel = SceneManager.GetActiveScene().buildIndex;
         int starsAmount = 0;

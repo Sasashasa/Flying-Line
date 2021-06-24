@@ -8,7 +8,7 @@ public class GameUIManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    public void MainMenu()
+    public void LoadMainMenu()
     {
         SceneManager.LoadScene(0);
     }
